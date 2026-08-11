@@ -5,9 +5,9 @@ services:
     image: postgres:15
     container_name: postgresql
     environment:
-      - POSTGRES_DB=netbox
-      - POSTGRES_USER=netbox
-      - POSTGRES_PASSWORD=Netbox2024!
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -17,7 +17,7 @@ services:
       - dcim-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U netbox"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -38,9 +38,9 @@ services:
     image: netboxcommunity/netbox:latest
     container_name: netbox
     environment:
-      - SUPERUSER_NAME=admin
-      - SUPERUSER_EMAIL=admin@dcim.local
-      - SUPERUSER_PASSWORD=@mineE123
+      - SUPERUSER_NAME=${SUPERUSER_NAME}
+      - SUPERUSER_EMAIL=${SUPERUSER_EMAIL}
+      - SUPERUSER_PASSWORD=${SUPERUSER_PASSWORD}
     ports:
       - "8000:8080"
     volumes:
@@ -56,6 +56,7 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+
 networks:
   dcim-network:
     driver: bridge
