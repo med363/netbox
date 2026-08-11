@@ -1,0 +1,7 @@
+# Fichiers sensibles
+.env
+*.pyc
+__pycache__/
+*.log
+media/
+postgres_data/
